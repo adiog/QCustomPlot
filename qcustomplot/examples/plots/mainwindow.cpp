@@ -1,7 +1,7 @@
 /***************************************************************************
 **                                                                        **
 **  QCustomPlot, an easy to use, modern plotting widget for Qt            **
-**  Copyright (C) 2011, 2012, 2013 Emanuel Eichhammer                     **
+**  Copyright (C) 2011, 2012, 2013, 2014 Emanuel Eichhammer               **
 **                                                                        **
 **  This program is free software: you can redistribute it and/or modify  **
 **  it under the terms of the GNU General Public License as published by  **
@@ -19,8 +19,8 @@
 ****************************************************************************
 **           Author: Emanuel Eichhammer                                   **
 **  Website/Contact: http://www.qcustomplot.com/                          **
-**             Date: 09.12.13                                             **
-**          Version: 1.1.1                                                **
+**             Date: 07.04.14                                             **
+**          Version: 1.2.1                                                **
 ****************************************************************************/
 
 /************************************************************************************************************
@@ -74,10 +74,11 @@ MainWindow::MainWindow(QWidget *parent) :
   // 15: setupItemDemo(ui->customPlot);
   // 16: setupStyledDemo(ui->customPlot);
   // 17: setupAdvancedAxesDemo(ui->customPlot);
+  // 18: setupColorMapDemo(ui->customPlot);
   
   // for making screenshots of the current demo or all demos (for website screenshots):
   //QTimer::singleShot(1500, this, SLOT(allScreenShots()));
-  //QTimer::singleShot(1000, this, SLOT(screenShot()));
+  //QTimer::singleShot(4000, this, SLOT(screenShot()));
 }
 
 void MainWindow::setupDemo(int demoIndex)
@@ -102,6 +103,7 @@ void MainWindow::setupDemo(int demoIndex)
     case 15: setupItemDemo(ui->customPlot); break;
     case 16: setupStyledDemo(ui->customPlot); break;
     case 17: setupAdvancedAxesDemo(ui->customPlot); break;
+    case 18: setupColorMapDemo(ui->customPlot); break;
   }
   setWindowTitle("QCustomPlot: "+demoName);
   statusBar()->clearMessage();
@@ -468,7 +470,7 @@ void MainWindow::setupTextureBrushDemo(QCustomPlot *customPlot)
   redDotPen.setColor(QColor(170, 100, 100, 180));
   redDotPen.setWidthF(2);
   customPlot->graph(0)->setPen(redDotPen);
-  customPlot->graph(0)->setBrush(QBrush(QPixmap("./dali.png"))); // fill with texture of specified png-image
+  customPlot->graph(0)->setBrush(QBrush(QPixmap("./balboa.jpg"))); // fill with texture of specified image
   
   customPlot->addGraph();
   customPlot->graph(1)->setPen(QPen(Qt::red));
@@ -484,7 +486,7 @@ void MainWindow::setupTextureBrushDemo(QCustomPlot *customPlot)
     // just playing with numbers, not much to learn here
     x[i] = 3*i/250.0;
     y0[i] = 1+exp(-x[i]*x[i]*0.8)*(x[i]*x[i]+x[i]);
-    y1[i] = 1-exp(-x[i]*x[i]*0.4)*(x[i]*x[i])*0.1; 
+    y1[i] = 1-exp(-x[i]*x[i]*0.4)*(x[i]*x[i])*0.1;
   }
   
   // pass data points to graphs:
@@ -521,7 +523,7 @@ void MainWindow::setupMultiAxisDemo(QCustomPlot *customPlot)
   // will contain left maxwell-like function
   customPlot->addGraph(customPlot->yAxis, customPlot->xAxis);
   customPlot->graph(0)->setPen(QPen(QColor(255, 100, 0)));
-  customPlot->graph(0)->setBrush(QBrush(QPixmap("./dali.png"))); // fill with texture of specified png-image
+  customPlot->graph(0)->setBrush(QBrush(QPixmap("./balboa.jpg"))); // fill with texture of specified image
   customPlot->graph(0)->setLineStyle(QCPGraph::lsLine);
   customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 5));
   customPlot->graph(0)->setName("Left maxwell function");
@@ -530,7 +532,7 @@ void MainWindow::setupMultiAxisDemo(QCustomPlot *customPlot)
   // will contain bottom maxwell-like function
   customPlot->addGraph();
   customPlot->graph(1)->setPen(QPen(Qt::red));
-  customPlot->graph(1)->setBrush(QBrush(QPixmap("./dali.png"))); // same fill as we used for graph 0
+  customPlot->graph(1)->setBrush(QBrush(QPixmap("./balboa.jpg"))); // same fill as we used for graph 0
   customPlot->graph(1)->setLineStyle(QCPGraph::lsStepCenter);
   customPlot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::red, Qt::white, 7));
   customPlot->graph(1)->setErrorType(QCPGraph::etValue);
@@ -734,7 +736,7 @@ void MainWindow::setupRealtimeDataDemo(QCustomPlot *customPlot)
   customPlot->graph(2)->setLineStyle(QCPGraph::lsNone);
   customPlot->graph(2)->setScatterStyle(QCPScatterStyle::ssDisc);
   customPlot->addGraph(); // red dot
-  customPlot->graph(3)->setPen(QPen(Qt::red)); 
+  customPlot->graph(3)->setPen(QPen(Qt::red));
   customPlot->graph(3)->setLineStyle(QCPGraph::lsNone);
   customPlot->graph(3)->setScatterStyle(QCPScatterStyle::ssDisc);
   
@@ -832,7 +834,7 @@ void MainWindow::setupBarChartDemo(QCustomPlot *customPlot)
   
   // prepare x axis with country labels:
   QVector<double> ticks;
-  QVector<QString> labels; 
+  QVector<QString> labels;
   ticks << 1 << 2 << 3 << 4 << 5 << 6 << 7;
   labels << "USA" << "Japan" << "Germany" << "France" << "UK" << "Italy" << "Canada";
   customPlot->xAxis->setAutoTicks(false);
@@ -1202,7 +1204,7 @@ void MainWindow::setupAdvancedAxesDemo(QCustomPlot *customPlot)
   wideAxisRect->axis(QCPAxis::atRight, 0)->setTickLabels(true);
   wideAxisRect->addAxis(QCPAxis::atLeft)->setTickLabelColor(QColor("#6050F8")); // add an extra axis on the left and color its numbers
   QCPLayoutGrid *subLayout = new QCPLayoutGrid;
-  customPlot->plotLayout()->addElement(0, 0, wideAxisRect); // insert axis rect in first row 
+  customPlot->plotLayout()->addElement(0, 0, wideAxisRect); // insert axis rect in first row
   customPlot->plotLayout()->addElement(1, 0, subLayout); // sub layout in second row (grid layout will grow accordingly)
   //customPlot->plotLayout()->setRowStretchFactor(1, 2);
   // prepare axis rects that will be placed in the sublayout:
@@ -1293,6 +1295,60 @@ void MainWindow::setupAdvancedAxesDemo(QCustomPlot *customPlot)
   graph2->rescaleAxes();
   bars1->rescaleAxes();
   wideAxisRect->axis(QCPAxis::atLeft, 1)->setRangeLower(0);
+}
+
+void MainWindow::setupColorMapDemo(QCustomPlot *customPlot)
+{
+  demoName = "Color Map Demo";
+  
+  // configure axis rect:
+  customPlot->setInteractions(QCP::iRangeDrag|QCP::iRangeZoom); // this will also allow rescaling the color scale by dragging/zooming
+  customPlot->axisRect()->setupFullAxesBox(true);
+  customPlot->xAxis->setLabel("x");
+  customPlot->yAxis->setLabel("y");
+
+  // set up the QCPColorMap:
+  QCPColorMap *colorMap = new QCPColorMap(customPlot->xAxis, customPlot->yAxis);
+  customPlot->addPlottable(colorMap);
+  int nx = 200;
+  int ny = 200;
+  colorMap->data()->setSize(nx, ny); // we want the color map to have nx * ny data points
+  colorMap->data()->setRange(QCPRange(-4, 4), QCPRange(-4, 4)); // and span the coordinate range -4..4 in both key (x) and value (y) dimensions
+  // now we assign some data, by accessing the QCPColorMapData instance of the color map:
+  double x, y, z;
+  for (int xIndex=0; xIndex<nx; ++xIndex)
+  {
+    for (int yIndex=0; yIndex<ny; ++yIndex)
+    {
+      colorMap->data()->cellToCoord(xIndex, yIndex, &x, &y);
+      double r = 3*qSqrt(x*x+y*y)+1e-2;
+      z = 2*x*(qCos(r+2)/r-qSin(r+2)/r); // the B field strength of dipole radiation (modulo physical constants)
+      colorMap->data()->setCell(xIndex, yIndex, z);
+    }
+  }
+  
+  // add a color scale:
+  QCPColorScale *colorScale = new QCPColorScale(customPlot);
+  customPlot->plotLayout()->addElement(0, 1, colorScale); // add it to the right of the main axis rect
+  colorScale->setType(QCPAxis::atRight); // scale shall be vertical bar with tick/axis labels right (actually atRight is already the default)
+  colorMap->setColorScale(colorScale); // associate the color map with the color scale
+  colorScale->axis()->setLabel("Magnetic Field Strength");
+  
+  // set the color gradient of the color map to one of the presets:
+  colorMap->setGradient(QCPColorGradient::gpPolar);
+  // we could have also created a QCPColorGradient instance and added own colors to
+  // the gradient, see the documentation of QCPColorGradient for what's possible.
+  
+  // rescale the data dimension (color) such that all data points lie in the span visualized by the color gradient:
+  colorMap->rescaleDataRange();
+  
+  // make sure the axis rect and color scale synchronize their bottom and top margins (so they line up):
+  QCPMarginGroup *marginGroup = new QCPMarginGroup(customPlot);
+  customPlot->axisRect()->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
+  colorScale->setMarginGroup(QCP::msBottom|QCP::msTop, marginGroup);
+  
+  // rescale the key (x) and value (y) axes so the whole color map is visible:
+  customPlot->rescaleAxes();
 }
 
 void MainWindow::realtimeDataSlot()
@@ -1419,7 +1475,7 @@ void MainWindow::allScreenShots()
   fileName.replace(" ", "");
   pm.save("./screenshots/"+fileName);
   
-  if (currentDemoIndex < 17)
+  if (currentDemoIndex < 18)
   {
     if (dataTimer.isActive())
       dataTimer.stop();
@@ -1431,7 +1487,7 @@ void MainWindow::allScreenShots()
     // setup delay for demos that need time to develop proper look:
     int delay = 250;
     if (currentDemoIndex == 10) // Next is Realtime data demo
-      delay = 12000; 
+      delay = 12000;
     else if (currentDemoIndex == 15) // Next is Item demo
       delay = 5000;
     QTimer::singleShot(delay, this, SLOT(allScreenShots()));
