@@ -188,15 +188,15 @@ void MainWindow::addRandomGraph()
   for (int i=0; i<n; i++)
   {
     x[i] = (i/(double)n-0.5)*10.0*xScale + xOffset;
-    y[i] = (sin(x[i]*r1*5)*sin(cos(x[i]*r2)*r4*3)+r3*cos(sin(x[i])*r4*2))*yScale + yOffset;
+    y[i] = (qSin(x[i]*r1*5)*qSin(qCos(x[i]*r2)*r4*3)+r3*qCos(qSin(x[i])*r4*2))*yScale + yOffset;
   }
   
   ui->customPlot->addGraph();
   ui->customPlot->graph()->setName(QString("New graph %1").arg(ui->customPlot->graphCount()-1));
   ui->customPlot->graph()->setData(x, y);
   ui->customPlot->graph()->setLineStyle((QCPGraph::LineStyle)(rand()%5+1));
-  if (rand()%100 > 75)
-    ui->customPlot->graph()->setScatterStyle(QCPScatterStyle((QCPScatterStyle::ScatterShape)(rand()%9+1)));
+  if (rand()%100 > 50)
+    ui->customPlot->graph()->setScatterStyle(QCPScatterStyle((QCPScatterStyle::ScatterShape)(rand()%14+1)));
   QPen graphPen;
   graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
   graphPen.setWidthF(rand()/(double)RAND_MAX*2+1);

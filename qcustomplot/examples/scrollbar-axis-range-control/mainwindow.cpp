@@ -1,7 +1,7 @@
 /***************************************************************************
 **                                                                        **
 **  QCustomPlot, an easy to use, modern plotting widget for Qt            **
-**  Copyright (C) 2011, 2012, 2013, 2014 Emanuel Eichhammer               **
+**  Copyright (C) 2011-2015 Emanuel Eichhammer                            **
 **                                                                        **
 **  This program is free software: you can redistribute it and/or modify  **
 **  it under the terms of the GNU General Public License as published by  **
@@ -19,8 +19,8 @@
 ****************************************************************************
 **           Author: Emanuel Eichhammer                                   **
 **  Website/Contact: http://www.qcustomplot.com/                          **
-**             Date: 07.04.14                                             **
-**          Version: 1.2.1                                                **
+**             Date: 25.04.15                                             **
+**          Version: 1.3.1                                                **
 ****************************************************************************/
 
 #include "mainwindow.h"
@@ -69,8 +69,8 @@ void MainWindow::setupPlot()
   for (int i=0; i<500; ++i)
   {
     x[i] = (i/499.0-0.5)*10;
-    y0[i] = exp(-x[i]*x[i]*0.25)*qSin(x[i]*5)*5;
-    y1[i] = exp(-x[i]*x[i]*0.25)*5;
+    y0[i] = qExp(-x[i]*x[i]*0.25)*qSin(x[i]*5)*5;
+    y1[i] = qExp(-x[i]*x[i]*0.25)*5;
   }
   ui->plot->graph(0)->setData(x, y0);
   ui->plot->graph(1)->setData(x, y1);
